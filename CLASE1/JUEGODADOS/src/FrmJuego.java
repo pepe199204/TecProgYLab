@@ -1,5 +1,8 @@
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,6 +14,10 @@ import javax.swing.WindowConstants;
 public class FrmJuego extends JFrame {
     
     JLabel lblDado1, lblDado2, lblLanzamientos, lblCenas;
+    Dado dado1, dado2;
+    Random r = new Random();
+
+    private int lanzamientos, cenas;
 
     public FrmJuego() {
         setTitle("Apostemos a los datos!!!");
@@ -26,6 +33,9 @@ public class FrmJuego extends JFrame {
         lblCenas = new JLabel();
         JButton btnIniciar = new JButton();
         JButton btnLanzar = new JButton();
+
+        dado1 = new Dado();
+        dado2 = new Dado();
 
         String rutaDado = "/img/3.jpg";
         ImageIcon imgDado = new ImageIcon(getClass().getResource(rutaDado));
@@ -58,10 +68,37 @@ public class FrmJuego extends JFrame {
         lblCenas.setFont(new Font("Tahoma", 1, 72));
         lblCenas.setHorizontalAlignment(SwingConstants.CENTER);
 
+        lanzamientos = 0;
+        cenas = 0;
+        mostrarContadores();
+
         btnIniciar.setText("Iniciar");
         btnIniciar.setBounds(10, 150, 100, 25);
+        btnIniciar.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                btnIniciar_Click(e);
+                //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+            }
+            
+
+        });
+
         btnLanzar.setText("Lanzar");
         btnLanzar.setBounds(120, 150, 100, 25);
+        btnLanzar.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO Auto-generated method stub
+                btnLanzar_Click(e);
+                //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+            }
+            
+
+        });
 
         getContentPane().setLayout(null);
         getContentPane().add(lblDado1);
@@ -74,7 +111,30 @@ public class FrmJuego extends JFrame {
         getContentPane().add(btnLanzar);
     }
 
-    public void mostrarContadores() {
+    private void btnIniciar_Click(ActionEvent e) {
+        lanzamientos = 0;
+        cenas = 0;
+        mostrarContadores();
+    }
 
+
+    private void btnLanzar_Click(ActionEvent e) {
+        dado1.lanzar(r);
+        dado2.lanzar(r);
+
+        dado1.mostrar(lblDado1);
+        dado2.mostrar(lblDado2);
+
+        lanzamientos++;
+        if (dado1.getNumero() + dado2.getNumero() >= 11) {
+            cenas++;
+        }
+        
+        mostrarContadores();
+    }
+
+    public void mostrarContadores() {
+        lblLanzamientos.setText(String.valueOf(lanzamientos));
+        lblCenas.setText(String.valueOf(cenas));
     }
 }
