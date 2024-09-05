@@ -82,6 +82,7 @@ public class FrmJuego extends JFrame {
     }
 
     private void btnVerificarClick(ActionEvent evt) {
+        System.out.println("tpJugadores => " + tpJugadores);
         switch (tpJugadores.getSelectedIndex()) {
             case 0:
                 JOptionPane.showMessageDialog(null, jugador1.getGrupos());
